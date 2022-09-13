@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import ReactDOM from 'react-dom';
+import GlobalStyle from './components/GlobalStyle.jsx';
 import Pages from './pages';
 
 function App() {
   return (
     <div>
+      <GlobalStyle />
       <Pages />
     </div>
   );
