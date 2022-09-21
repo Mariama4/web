@@ -5,6 +5,7 @@ import {
   ApolloProvider,
   InMemoryCache,
   createHttpLink,
+  gql,
 } from '@apollo/client';
 import { setContext } from 'apollo-link-context';
 
@@ -26,10 +27,23 @@ const authLink = setContext((_, { headers }) => {
 // настраиваем Apollo Client
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  uri,
   cache,
   resolvers: {},
   connectToDevTools: true,
+});
+
+// записываем данные кэша при начальной загрузке
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
+
+cache.writeQuery({
+  query: IS_LOGGED_IN,
+  data: {
+    isLoggedIn: !!localStorage.getItem('token'),
+  },
 });
 
 function App() {

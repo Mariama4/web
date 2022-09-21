@@ -44,6 +44,9 @@ const SignUp = (props) => {
     });
   };
 
+  // apollo client
+  const client = useApolloClient();
+
   useEffect(() => {
     // обновляем заголовок документа
     document.title = 'Sign Up - Notedly';
@@ -54,6 +57,13 @@ const SignUp = (props) => {
     onCompleted: (data) => {
       // Сохраняем JWT в LocalStorage
       localStorage.setItem('token', data.signUp);
+      // обновляем локальный кэш
+      client.writeQuery({
+        query: IS_LOGGED_IN,
+        data: {
+          isLoggedIn: true,
+        },
+      });
       // Перенаправляем пользователя на домашнюю страницу
       navigate('/');
     },
