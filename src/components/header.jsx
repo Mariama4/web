@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import logo from '../assets/logo.svg';
 import { useQuery, gql } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import ButtonAsLink from '../components/ButtonAsLink';
 
 const HeaderBar = styled.header`
   width: 100%;
@@ -33,9 +34,21 @@ const IS_LOGGED_IN = gql`
   }
 `;
 
-const Header = () => {
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+
+  return ComponentWithRouterProp;
+}
+
+const Header = (props) => {
   // хук запроса для проверки состояния авторизации пользователя
-  const { data } = useQuery(IS_LOGGED_IN);
+  const { data, client } = useQuery(IS_LOGGED_IN);
+  const navigate = useNavigate();
 
   return (
     <HeaderBar>
@@ -44,7 +57,24 @@ const Header = () => {
       {/* если авторизован, то отображаем ссылку Logout, в противном случае отображаем варианты signup и signin */}
       <UserState>
         {data.isLoggedIn ? (
-          <p>Log Out</p>
+          <ButtonAsLink
+            onClick={() => {
+              // удаляем токен
+              localStorage.removeItem('token');
+              // Очищаем кэш приложения
+              client.resetStore();
+              // обновляем локальное состояние
+              client.writeQuery({
+                query: IS_LOGGED_IN,
+                data: {
+                  isLoggedIn: false,
+                },
+              });
+              navigate('/');
+            }}
+          >
+            Logout
+          </ButtonAsLink>
         ) : (
           <p>
             <Link to={'/signin'}>Sign In</Link> or{' '}
@@ -56,4 +86,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default withRouter(Header);

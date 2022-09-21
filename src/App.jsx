@@ -46,6 +46,15 @@ cache.writeQuery({
   },
 });
 
+client.onResetStore(() =>
+  client.writeQuery({
+    query: IS_LOGGED_IN,
+    data: {
+      isLoggedIn: true,
+    },
+  })
+);
+
 function App() {
   return (
     <ApolloProvider client={client}>
