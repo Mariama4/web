@@ -10,6 +10,13 @@ const SIGNIP_USER = gql`
   }
 `;
 
+// записываем данные кэша при начальной загрузке
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
+
 const SignIn = (props) => {
   const navigate = useNavigate();
   useEffect(() => {

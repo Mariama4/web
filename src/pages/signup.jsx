@@ -31,19 +31,26 @@ const SINGUP_USER = gql`
   }
 `;
 
+// записываем данные кэша при начальной загрузке
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
+
 // добавляем props, передаваемый в компонент для дальнейшего использования
 const SignUp = (props) => {
   const navigate = useNavigate();
   // Устанавливаем состояние формы по умолчанию
   const [values, setValues] = useState();
 
-  // Обновляем состояние при вводе пользователем данных
-  const onChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
+  // // Обновляем состояние при вводе пользователем данных
+  // const onChange = (event) => {
+  //   setValues({
+  //     ...values,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
 
   // apollo client
   const client = useApolloClient();
