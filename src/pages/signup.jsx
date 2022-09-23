@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import { useMutation, useApolloClient, gql } from '@apollo/client';
+import UserForm from '../components/UserForm';
 
 const Wrapper = styled.div`
   border: 1px solid #f5f4f0;
@@ -70,48 +71,13 @@ const SignUp = (props) => {
   });
 
   return (
-    <Wrapper>
-      <h2>Sign Up</h2>
-      <Form
-        onSubmit={(event) => {
-          event.preventDefault();
-          signUp({
-            variables: {
-              ...values,
-            },
-          });
-        }}
-      >
-        <label htmlFor="username">Username:</label>
-        <input
-          required
-          type="text"
-          id="username"
-          name="username"
-          placeholder="username"
-          onChange={onChange}
-        />
-        <label htmlFor="email">Email:</label>
-        <input
-          required
-          type="email"
-          id="email"
-          name="email"
-          placeholder="email"
-          onChange={onChange}
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          required
-          type="password"
-          id="password"
-          name="password"
-          placeholder="password"
-          onChange={onChange}
-        />
-        <Button type="submit">Submit</Button>
-      </Form>
-    </Wrapper>
+    <React.Fragment>
+      <UserForm action={signUp} formType="signup" />
+      {/* Если данные загружаются, то сообщаем сообщение о загрузке */}
+      {loading && <p>Loading...</p>}
+      {/* Если при загрузке произошел сбой, отображаем сообщение об ошибке */}{' '}
+      {error && <p>Error creating an account!</p>}
+    </React.Fragment>
   );
 };
 

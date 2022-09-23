@@ -8,6 +8,7 @@ import Favorites from './favorites';
 import MyNotes from './mynotes';
 import NotePage from './note';
 import SignUp from './signup';
+import SingIn from './signin';
 
 const Pages = () => {
   return (
@@ -19,6 +20,7 @@ const Pages = () => {
           <Route path="favorites" element={<Favorites />} />
           <Route path="note/:id" element={<NotePage />} />
           <Route path="signup" element={<SignUp />} />
+          <Route path="signin" element={<SingIn />} />
         </Routes>
       </Layout>
     </Router>
