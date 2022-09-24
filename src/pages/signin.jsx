@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useMutation, useApolloClient } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { SIGNIN_USER } from '../gql/query';
+import { IS_LOGGED_IN } from '../gql/query';
 
 import UserForm from '../components/UserForm';
 
