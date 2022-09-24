@@ -1,21 +1,9 @@
 import React, { useEffect } from 'react';
-import { useMutation, useApolloClient, gql } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
+import { SIGNIN_USER } from '../gql/query';
 
 import UserForm from '../components/UserForm';
-
-const SIGNIP_USER = gql`
-  mutation signIp($email: String, $password: String!) {
-    signIn(email: $email, password: $password)
-  }
-`;
-
-// записываем данные кэша при начальной загрузке
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
 
 const SignIn = (props) => {
   const navigate = useNavigate();
@@ -25,7 +13,7 @@ const SignIn = (props) => {
   });
 
   const client = useApolloClient();
-  const [signIn, { loading, error }] = useMutation(SIGNIP_USER, {
+  const [signIn, { loading, error }] = useMutation(SIGNIN_USER, {
     onCompleted: (data) => {
       // сохраняем токен
       localStorage.setItem('token', data.signIn);

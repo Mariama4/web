@@ -16,6 +16,7 @@ import MyNotes from './mynotes';
 import NotePage from './note';
 import SignUp from './signup';
 import SingIn from './signin';
+import NewNote from './new';
 
 const IS_LOGGED_IN = gql`
   {
@@ -48,6 +49,7 @@ const Pages = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="mynotes" element={<MyNotes />} />
             <Route path="favorites" element={<Favorites />} />
+            <Route path="new" element={<NewNote />} />
           </Route>
           <Route path="note/:id" element={<NotePage />} />
           <Route path="signup" element={<SignUp />} />
