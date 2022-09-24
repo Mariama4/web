@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import NoteForm from '../components/NoteForm';
 import { useNavigate } from 'react-router-dom';
-import { GET_NOTES, NEW_NOTE } from '../gql/query';
+import { GET_MY_NOTES, GET_NOTES, NEW_NOTE } from '../gql/query';
 
 const NewNote = (props) => {
   const navigate = useNavigate();
@@ -12,8 +12,7 @@ const NewNote = (props) => {
   });
 
   const [data, { loading, error }] = useMutation(NEW_NOTE, {
-    // Повторно получаем запрос GET_NOTES, чтобы обновить кэш
-    refetchQueries: [{ query: GET_NOTES }],
+    refetchQueries: [{ query: GET_NOTES }, { query: GET_MY_NOTES }],
     onCompleted: (data) => {
       // перенаправляем на страницу заметки
       navigate(`../note/${data.newNote.id}`);

@@ -58,7 +58,7 @@ const NEW_NOTE = gql`
 `;
 
 const SIGNIN_USER = gql`
-  mutation signIp($email: String, $password: String!) {
+  mutation signIn($email: String, $password: String!) {
     signIn(email: $email, password: $password)
   }
 `;
@@ -76,6 +76,46 @@ const SIGNUP_USER = gql`
   }
 `;
 
+const GET_MY_NOTES = gql`
+  query me {
+    me {
+      id
+      username
+      notes {
+        id
+        createdAt
+        content
+        favoriteCount
+        author {
+          username
+          id
+          avatar
+        }
+      }
+    }
+  }
+`;
+
+const GET_MY_FAVORITES = gql`
+  query me {
+    me {
+      id
+      username
+      favorites {
+        id
+        createdAt
+        content
+        favoriteCount
+        author {
+          username
+          id
+          avatar
+        }
+      }
+    }
+  }
+`;
+
 export {
   GET_NOTE,
   GET_NOTES,
@@ -83,4 +123,6 @@ export {
   SIGNIN_USER,
   SIGNUP_USER,
   IS_LOGGED_IN,
+  GET_MY_NOTES,
+  GET_MY_FAVORITES,
 };
